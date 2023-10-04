@@ -11,20 +11,20 @@ const answer = sample(WORDS);
 console.info(answer);
 
 function Game() {
-  const [results, setResults] = React.useState([]);
+  const [guesses, setGuesses] = React.useState([]);
 
-  console.log(results);
+  console.log(guesses);
 
   function handleSubmit(guess) {
     console.log(`You guessed: ${guess}`);
 
-    const newResult = {
+    const newGuess = {
       name: guess,
       id: crypto.randomUUID(),
     };
 
-    const nextResults = [...results, newResult];
-    setResults(nextResults);
+    const nextGuesses = [...guesses, newGuess];
+    setGuesses(nextGuesses);
 
     // if (guess === answer) {
     //   alert("Correct!");
@@ -35,7 +35,7 @@ function Game() {
 
   return (
     <>
-      <GuessResults results={results} />
+      <GuessResults guesses={guesses} />
       <GuessInput handleSubmit={handleSubmit} />
     </>
   );
