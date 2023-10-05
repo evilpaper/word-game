@@ -8,12 +8,12 @@ import GuessResults from "../GuessResults/GuessResults";
 // Pick a random word on every pageload.
 const answer = sample(WORDS);
 // To make debugging easier, we'll log the solution in the console.
-console.info(answer);
+console.info("answer ", answer);
 
 function Game() {
   const [guesses, setGuesses] = React.useState([]);
 
-  console.log(guesses);
+  console.log("guesses", guesses);
 
   function handleSubmit(guess) {
     console.log(`You guessed: ${guess}`);
@@ -35,7 +35,7 @@ function Game() {
 
   return (
     <>
-      <GuessResults guesses={guesses} />
+      <GuessResults guesses={guesses} answer={answer} />
       <GuessInput handleSubmit={handleSubmit} />
     </>
   );
