@@ -3,8 +3,10 @@ import React from "react";
 import { sample } from "../../utils";
 import { WORDS } from "../../data";
 import GuessInput from "../GuessInput";
+import WonMessage from "../WonMessage/WonMessage";
+import LostMessage from "../LostMessage/LostMessage";
 import GuessResults from "../GuessResults/GuessResults";
-import GameResult from "../GameResult";
+import { NUM_OF_GUESSES_ALLOWED } from "../../constants";
 
 // Pick a random word on every pageload.
 const answer = sample(WORDS);
@@ -13,13 +15,9 @@ console.info("answer ", answer);
 
 function Game() {
   const [guesses, setGuesses] = React.useState([]);
-  const [gameState, setGameState] = React.useState("ongoing"); // Possible states: ongoing, win, loose.
-
-  // console.log("guesses", guesses);
+  const [gameState, setGameState] = React.useState("ongoing"); // Possible states: ongoing, won, lost.
 
   function handleSubmit(guess) {
-    // console.log(`You guessed: ${guess}`);
-
     const newGuess = {
       name: guess,
       id: crypto.randomUUID(),
@@ -29,19 +27,20 @@ function Game() {
     setGuesses(nextGuesses);
 
     if (guess === answer) {
-      setGameState("win");
+      setGameState("won");
     }
 
-    if (guesses.length === 5) {
-      setGameState("loose");
+    if (nextGuesses.length === NUM_OF_GUESSES_ALLOWED) {
+      setGameState("lost");
     }
   }
 
   return (
     <>
-      <GameResult gameState={gameState} answer={answer} guesses={guesses} />
       <GuessResults guesses={guesses} answer={answer} />
-      <GuessInput handleSubmit={handleSubmit} />
+      <GuessInput gameState={gameState} handleSubmit={handleSubmit} />
+      {gameState === "won" && <WonMessage numberOfGuesses={guesses.length} />}
+      {gameState === "lost" && <LostMessage answer={answer} />}
     </>
   );
 }
