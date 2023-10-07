@@ -10,8 +10,6 @@ function Guess({ value, answer }) {
     return value ? { letter: value.name[num], status: result[num].status } : "";
   });
 
-  console.log(guess);
-
   return (
     <p className="guess">
       {guess.map((slot, index) => {
